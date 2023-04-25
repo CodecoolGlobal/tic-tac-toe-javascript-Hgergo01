@@ -10,21 +10,50 @@ function selectGame(data) {
 function placeShip(x, y)
 {
 let posX = (x.charCodeAt()-65);
-let posY = y;
-if(board2[posX][posY] !== "")
+let posY = +y;
+if(board2[posX][posY] !== "" )
 {
   displayMessage ("Choose an other field!")
-} else if (shipsPlaced < 2)
+}
+else if (canPlaceThere(posX,posY))
 {
 board2[posX][posY] = "X";
 displayBoard({boardnumber : 2 , board : board2})
 shipsPlaced ++
 }
-else if (shipsPlaced >= 2)
+if(shipsPlaced >= 2)
 {
   displayMessage ("You have finished the placement phase. Start shooting!" , "purple")
   phase = "shooting"
 }
+}
+
+function canPlaceThere(x,y)
+{
+  if (x > 0 && board2[x-1][y] === "X")
+  {
+    displayMessage("No!")
+    return false
+  }
+  else if (x < board2.length-1 && board2[x+1][y] === "X")
+  {
+    displayMessage("No!")
+    return false
+  }
+  else if (y > 0 && board2[x][y-1] === "X")
+  {
+    displayMessage("No!")
+    return false
+  }
+  else if (y < board2.length-1 && board2[x][y+1] === "X")
+  {
+    displayMessage("No!")
+    return false
+  }
+  else
+  {
+  return true
+  }
 }
 
 function handleClick(data) 
