@@ -1,12 +1,36 @@
 let board = [["","","",""],["","","",""],["","","",""],["","","",""]];
 const board2 = [["","","",""],["","","",""],["","","",""],["","","",""]];
+let shipsPlaced = 0;
+let phase = "placement"
 
 function selectGame(data) {
   displayMessage(data, "black");
 }
 
-function handleClick(data) {
-  displayMessage(data.x + data.y + data.clickType);
+function placeShip(x, y)
+{
+let posX = (x.charCodeAt()-65);
+let posY = y;
+if(board2[posX][posY] !== "")
+{
+  displayMessage ("Choose an other field!")
+} else if (shipsPlaced < 2)
+{
+board2[posX][posY] = "X";
+displayBoard({boardnumber : 2 , board : board2})
+shipsPlaced ++
+}
+else if (shipsPlaced >= 2)
+{
+  displayMessage ("You have finished the placement phase. Start shooting!" , "purple")
+  phase = "shooting"
+}
+}
+
+function handleClick(data) 
+{
+ displayMessage(data.x + data.y + data.clickType);
+ placeShip (data.x , data.y)
 }
 
 function resetGame() {
