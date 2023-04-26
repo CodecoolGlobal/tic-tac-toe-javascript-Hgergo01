@@ -7,6 +7,12 @@ function selectGame(data) {
   displayMessage(data, "black");
 }
 
+let aiShipsPlaced = 0;
+function aiPlaceShip(x,y)
+{
+
+}
+
 function placeShip(x, y)
 {
 let posX = (x.charCodeAt()-65);
@@ -86,19 +92,24 @@ let aiShots = [];
 
     if (board2[x][y] === "S" && board[x][y] === "" && gameOver < 2) 
     {
-      board[x][y] = "Hit";
-      displayBoard({ boardnumber: 1, board: board });
+      board2[x][y] = "Hit";
+      displayBoard({ boardnumber: 2, board: board2 });
       displayMessage("The AI hit your ship at " + String.fromCharCode(x+65) + y, "red");
       aiShots.push (`${x},${y}`)
       gameOver++
-    } else if (board[x][y] === "" ) 
+      if(gameOver == 2)
+      {
+        displayMessage("GAME OVER! AI WON! :(")
+      }
+
+    } else if (board[x][y] === "" && gameOver < 2) 
     {
-      board[x][y] = "M";
-      displayBoard({ boardnumber: 1, board: board });
+      board2[x][y] = "M";
+      displayBoard({ boardnumber: 2, board: board2 });
       displayMessage("The AI missed at " + String.fromCharCode(x+65) + y, "black");
       aiShots.push (`${x},${y}`)
     }
-  }
+    }
 
 displayBoard({boardnumber: 1,board: board});
 displayBoard({boardnumber: 2,board: board2});
