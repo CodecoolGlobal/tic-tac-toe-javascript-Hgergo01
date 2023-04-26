@@ -10,7 +10,7 @@ function selectGame(data) {
   aiPlaceShip(data)
 }
 
-function aiPlaceShip(data)
+/*function aiPlaceShip(data)
 {
 
 x= 
@@ -26,7 +26,7 @@ else if(aiShipsPlaced >= 2)
 {
   phase = "shooting"
 }
-}
+}*/
 
 
 function placeShip(x, y)
@@ -79,7 +79,7 @@ function canPlaceThere(x,y)
   }
 }
 
-function AIcanPlaceThere(x,y)
+/*function AIcanPlaceThere(x,y)
 {
   if (x > 0 && board[x-1][y] === "S")
   {
@@ -105,7 +105,7 @@ function AIcanPlaceThere(x,y)
   {
   return true
   }
-}
+}*/
 function handleClick(data) 
 {
  displayMessage(data.x + data.y + data.clickType);
