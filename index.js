@@ -39,7 +39,7 @@ if(board2[posX][posY] !== "" )
 }
 else if (canPlaceThere(posX,posY) && shipsPlaced < 2)
 {
-board2[posX][posY] = "S";
+board2[posX][posY] = "🛳️ ";
 displayBoard({boardnumber : 2 , board : board2})
 shipsPlaced ++
 displayMessage("You have placed " + shipsPlaced + " ships")
@@ -53,22 +53,22 @@ else if(shipsPlaced >= 2)
 
 function canPlaceThere(x,y)
 {
-  if (x > 0 && board2[x-1][y] === "S")
+  if (x > 0 && board2[x-1][y] === "🛳️ ")
   {
     displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
     return false
   }
-  else if (x < board2.length-1 && board2[x+1][y] === "S")
+  else if (x < board2.length-1 && board2[x+1][y] === "🛳️ ")
   {
     displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
     return false
   }
-  else if (y > 0 && board2[x][y-1] === "S")
+  else if (y > 0 && board2[x][y-1] === "🛳️ ")
   {
     displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
     return false
   }
-  else if (y < board2.length-1 && board2[x][y+1] === "S")
+  else if (y < board2.length-1 && board2[x][y+1] === "🛳️ ")
   {
     displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
     return false
@@ -133,7 +133,7 @@ let aiShots = [];
       y = Math.floor(Math.random() * 4);
     } while (aiShots.includes(`${x},${y}`));
 
-    if (board2[x][y] === "S" && board[x][y] === "" && gameOver < 2) 
+    if (board2[x][y] === "🛳️ " && board[x][y] === "" && gameOver < 2) 
     {
       board2[x][y] = "Hit";
       displayBoard({ boardnumber: 2, board: board2 });
