@@ -1,17 +1,33 @@
 let board = [["","","",""],["","","",""],["","","",""],["","","",""]];
 const board2 = [["","","",""],["","","",""],["","","",""],["","","",""]];
+let hiddenBoard = [["","","",""],["","","",""],["","","",""],["","","",""]];
 let shipsPlaced = 0;
 let phase = "placement"
+let aiShipsPlaced = 0;
 
 function selectGame(data) {
-  displayMessage(data, "black");
+  displayMessage(data, "black")
+  aiPlaceShip(data)
 }
 
-let aiShipsPlaced = 0;
-function aiPlaceShip(x,y)
+function aiPlaceShip(data)
 {
 
+x= 
+y= 
+
+if (AIcanPlaceThere(x,y) && aiShipsPlaced < 2)
+{
+hiddenBoard[x][y] = "S";
+displayBoard({boardnumber : 2, board : board})
+aiShipsPlaced ++
 }
+else if(aiShipsPlaced >= 2)
+{
+  phase = "shooting"
+}
+}
+
 
 function placeShip(x, y)
 {
@@ -30,7 +46,7 @@ displayMessage("You have placed " + shipsPlaced + " ships")
 }
 else if(shipsPlaced >= 2)
 {
-  displayMessage ("You have finished the placement phase. Start shooting!" , "black")
+  displayMessage ("You have finished the placement phase. Start shooting!" , "white")
   phase = "shooting"
 }
 }
@@ -63,6 +79,33 @@ function canPlaceThere(x,y)
   }
 }
 
+function AIcanPlaceThere(x,y)
+{
+  if (x > 0 && board[x-1][y] === "S")
+  {
+    displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
+    return false
+  }
+  else if (x < board.length-1 && board[x+1][y] === "S")
+  {
+    displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
+    return false
+  }
+  else if (y > 0 && board[x][y-1] === "S")
+  {
+    displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
+    return false
+  }
+  else if (y < board.length-1 && board[x][y+1] === "S")
+  {
+    displayMessage("You can not place your ships next to each other! Choose an other field!", "red")
+    return false
+  }
+  else
+  {
+  return true
+  }
+}
 function handleClick(data) 
 {
  displayMessage(data.x + data.y + data.clickType);
@@ -106,12 +149,12 @@ let aiShots = [];
     {
       board2[x][y] = "M";
       displayBoard({ boardnumber: 2, board: board2 });
-      displayMessage("The AI missed at " + String.fromCharCode(x+65) + y, "black");
+      displayMessage("The AI missed at " + String.fromCharCode(x+65) + y, "white");
       aiShots.push (`${x},${y}`)
     }
     }
 
 displayBoard({boardnumber: 1,board: board});
 displayBoard({boardnumber: 2,board: board2});
-displayMessage("message", "green");
-displayTextMessage("text message", "red");
+displayMessage("Let's get started!", "white");
+displayTextMessage("text message", "white");
