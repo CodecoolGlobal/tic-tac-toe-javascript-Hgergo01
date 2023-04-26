@@ -6,5 +6,3 @@ const data = {
     game5: "size:6,s:{s1:b1,s2:e3,s3:d4d5}",
     game6: "size:6,s:{s1:a1a2,s2:c2d2e2,s3:c5,s4:e4}",
 }
-
-console.log(data.game2.valueOf())

@@ -3,73 +3,40 @@ const board2 = [["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "
 let shipsPlaced = 0;
 let phase = "placement"
 
-
 function selectGame(data) {
   displayMessage("AI have placed his ships!", "white")
-  displayTextMessage("Start shooting", "white")
-  AiPlace(data)
-  displayBoard({ boardnumber: 1, board: board })
+  displayTextMessage("It's your turn!", "white")
+  aiPlace1Ships(data)
 }
-
-/*function aiPlaceShip(x,y)
-{
-let ship1 = [];
-let ship2 = [];
-let arr = data.game1.split(/[:,{}]/);
-
-for(let i = 0; i < arr.length; i++){
-    if(arr[i] == 's1')
-    {
-      ship1.push(arr[i+1])
-    }
-    if(arr[i] == 's2'){
-        ship2.push(arr[i+1])
-    }
-}
-let thisX = [];
-thisX.push(ship1[0].charCodeAt()-97);
-let thisY = [];
-thisY.push(Number(ship1[0][1]))
-board[thisX][thisY-1] = "S"
-let thisX2 = [];
-thisX2.push(ship2[0].charCodeAt()-97);
-let thisY2 = [];
-thisY2.push(Number(ship2[0][1]))
-board[thisX2][thisY2-1] = "S"
-phase = "shooting"
-};*/
 
 let ship = [];
-
-function AiPlace(data) {
-  let gamemode = data;
-  let arr = gamemode.split(/[:,{}]/);
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].length === 2 && arr[i].includes("s")) {
-      ship.push(arr[i + 1])
-    }
+function aiPlace1Ships(data) {
+    let gamemode = data;
+    let arr = gamemode.split(/[:,{}]/);
+  for(let i = 0; i < arr.length; i++){
+      if(arr[i].length === 2 && arr[i].includes("s"))
+      {
+        ship.push(arr[i+1])
+      }
   }
-  let thisX = [];
-  thisX.push(ship[0].charCodeAt() - 97);
-  let thisY = [];
-  thisY.push(Number(ship[0][1]))
-  board[thisX][thisY - 1] = "S"
-  let thisX2 = [];
-  thisX2.push(ship[0].charCodeAt() - 97);
-  let thisY2 = [];
-  thisY2.push(Number(ship[0][1]))
-  board[thisX2][thisY2 - 1] = "S"
-  phase = "shooting"
-  board[thisX][thisY] = "S"
-  board[thisX2][thisY2] = "S"
+  let posX = [];
+  posX.push(ship[0].charCodeAt()-97);
+  let posX2 = [];
+  posX2.push(ship[1].charCodeAt()-97);
+  let posY = [];
+  posY.push(Number(ship[0][1]))
+let posY2 = [];
+  posY2.push(Number(ship[1][1]))
+  board[posX][posY-1] = " "
+  board[posX2][posY2-1] = " "
+}
 
-};
 
 
 function placeShip(x, y) {
   let posX = (x.charCodeAt() - 65);
   let posY = +y;
-  if (board2[posX][posY] !== "") {
+  if (board2[posX][posY] !== "" && phase == "placement") {
     displayMessage("This field is already in use! Choose an other one!", "red")
   }
   else if (phase == "placement" && canPlaceThere(posX, posY) && shipsPlaced < 2) {
@@ -86,16 +53,25 @@ function placeShip(x, y) {
   }
 }
 
+let aiGameOver = 0;
+
 function iShoot(x, y) {
   console.log(board)
   let posX = (x.charCodeAt() - 65);
   let posY = +y;
   if (phase == "shooting") {
-    if (board[posX][posY] == "S") {
+    if (board[posX][posY] == " ") {
       board[posX][posY] = "💥"
-      displayBoard({ boardnumber: 1, board: board })
+      displayBoard({ boardnumber: 1, board: board });
+      displayMessage("You hit AI's ship at " + String.fromCharCode(posX + 65) + (posY+1), "red");
+      aiGameOver++
+      if(aiGameOver == 2)
+      {
+        displayMessage(" YOU WON!")
+      }
     }
-    if (board[posX][posY] !== "🌊" && board[posX][posY] === "") {
+    else if (board[posX][posY] !== "🌊" && board[posX][posY] === "" && aiGameOver < 2 && gameOver < 2) {
+      displayMessage("You missed at " + String.fromCharCode(posX + 65) + (posY+1), "white");
       board[posX][posY] = "🌊"
       displayBoard({ boardnumber: 1, board: board })
     }
@@ -154,17 +130,17 @@ function aiShoot() {
   if (board2[x][y] === "🛳️ " && gameOver < 2) {
     board2[x][y] = "💥";
     displayBoard({ boardnumber: 2, board: board2 });
-    displayMessage("The AI hit your ship at " + String.fromCharCode(x + 65) + y, "red");
+    displayMessage("The AI hit your ship at " + String.fromCharCode(x + 65) + (y+1), "red");
     aiShots.push(`${x},${y}`)
     gameOver++
     if (gameOver == 2) {
       displayMessage("GAME OVER! AI WON! :(")
     }
 
-  } else if (board2[x][y] === "" && gameOver < 2) {
+  } else if (board2[x][y] === "" && gameOver < 2 && aiGameOver < 2) {
     board2[x][y] = "🌊";
     displayBoard({ boardnumber: 2, board: board2 });
-    displayMessage("The AI missed at " + String.fromCharCode(x + 65) + y, "white");
+    displayMessage("The AI missed at " + String.fromCharCode(x + 65) + (y+1), "white");
     aiShots.push(`${x},${y}`)
   }
 }
@@ -172,4 +148,4 @@ function aiShoot() {
 displayBoard({ boardnumber: 1, board: board });
 displayBoard({ boardnumber: 2, board: board2 });
 displayMessage("Let's get started!", "white");
-displayTextMessage("It's time to place your ships!", "white");
+displayTextMessage("Select gamemode!", "white");
