@@ -43,6 +43,11 @@ board2[posX][posY] = "🛳️ ";
 displayBoard({boardnumber : 2 , board : board2})
 shipsPlaced ++
 displayMessage("You have placed " + shipsPlaced + " ships")
+displayTextMessage("You have 1 more ship left!")
+if (shipsPlaced >= 2)
+{
+  displayTextMessage("It's AI's turn!")
+}
 }
 else if(shipsPlaced >= 2)
 {
@@ -135,7 +140,7 @@ let aiShots = [];
 
     if (board2[x][y] === "🛳️ " && board[x][y] === "" && gameOver < 2) 
     {
-      board2[x][y] = "Hit";
+      board2[x][y] = "💥";
       displayBoard({ boardnumber: 2, board: board2 });
       displayMessage("The AI hit your ship at " + String.fromCharCode(x+65) + y, "red");
       aiShots.push (`${x},${y}`)
@@ -147,7 +152,7 @@ let aiShots = [];
 
     } else if (board[x][y] === "" && gameOver < 2) 
     {
-      board2[x][y] = "M";
+      board2[x][y] = "🌊 ";
       displayBoard({ boardnumber: 2, board: board2 });
       displayMessage("The AI missed at " + String.fromCharCode(x+65) + y, "white");
       aiShots.push (`${x},${y}`)
@@ -157,4 +162,4 @@ let aiShots = [];
 displayBoard({boardnumber: 1,board: board});
 displayBoard({boardnumber: 2,board: board2});
 displayMessage("Let's get started!", "white");
-displayTextMessage("text message", "white");
+displayTextMessage("It's time to place your ships!", "white");
