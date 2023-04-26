@@ -42,6 +42,7 @@ function displayBoard(data) {
           x: cellElement.dataset.x,
           y: cellElement.dataset.y,
           clickType: "left",
+          boardNumber: data.boardnumber,
         });
       });
       cellElement.addEventListener("contextmenu", (e) => {
@@ -50,6 +51,7 @@ function displayBoard(data) {
           x: cellElement.dataset.x,
           y: cellElement.dataset.y,
           clickType: "right",
+          boardNumber: data.boardnumber,
         });
       });
       rowElement.appendChild(cellElement);
