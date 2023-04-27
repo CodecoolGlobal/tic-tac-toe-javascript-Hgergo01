@@ -5,7 +5,7 @@ let phase = "placement"
 
 function selectGame(data) {
   displayMessage("AI have placed his ships!", "white")
-  displayTextMessage("It's your turn!", "white")
+  displayTextMessage("It's your turn to place ships!", "white")
   aiPlace1Ships(data)
 }
 
@@ -46,7 +46,7 @@ function placeShip(x, y) {
     displayMessage("You have placed " + shipsPlaced + " ships")
     displayTextMessage("You have 1 more ship left!")
     if (phase == "placement" && shipsPlaced >= 2) {
-      displayTextMessage("It's AI's turn!")
+      displayTextMessage("It's AI's turn to shoot!")
       displayMessage("You have finished the placement phase. Start shooting!", "white")
       phase = "shooting"
     }
@@ -76,6 +76,7 @@ function iShoot(x, y) {
       displayBoard({ boardnumber: 1, board: board })
     }
   }
+  displayTextMessage("It's AI's turn to shoot!")
 }
 
 function canPlaceThere(x, y) {
@@ -143,6 +144,7 @@ function aiShoot() {
     displayMessage("The AI missed at " + String.fromCharCode(x + 65) + (y+1), "white");
     aiShots.push(`${x},${y}`)
   }
+  displayTextMessage("It's your turn to shoot!")
 }
 
 displayBoard({ boardnumber: 1, board: board });
