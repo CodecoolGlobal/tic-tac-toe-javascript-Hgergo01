@@ -5,7 +5,7 @@ let phase = "placement"
 
 function selectGame(data) {
   displayMessage("AI have placed his ships!", "white")
-  displayTextMessage("It's your turn to place ships!", "white")
+  displayTextMessage("Now it's your turn!", "white")
   aiPlace1Ships(data)
 }
 
@@ -43,7 +43,7 @@ function placeShip(x, y) {
     board2[posX][posY] = "🛳️ ";
     displayBoard({ boardnumber: 2, board: board2 })
     shipsPlaced++
-    displayMessage("You have placed " + shipsPlaced + " ships")
+    displayMessage("You have placed " + shipsPlaced + " ship")
     displayTextMessage("You have 1 more ship left!")
     if (phase == "placement" && shipsPlaced >= 2) {
       displayTextMessage("It's AI's turn to shoot!")
@@ -60,7 +60,7 @@ function iShoot(x, y) {
   let posX = (x.charCodeAt() - 65);
   let posY = +y;
   if (phase == "shooting") {
-    if (board[posX][posY] == " ") {
+    if (board[posX][posY] == " " && aiGameOver < 2 && gameOver < 2)  {
       board[posX][posY] = "💥"
       displayBoard({ boardnumber: 1, board: board });
       displayMessage("You hit AI's ship at " + String.fromCharCode(posX + 65) + (posY+1), "red");
@@ -68,6 +68,11 @@ function iShoot(x, y) {
       if(aiGameOver == 2)
       {
         displayMessage(" YOU WON!")
+        displayTextMessage("You are smarter than the AI :)")
+      }
+      if (gameOver == 2) {
+        displayMessage("GAME OVER! AI WON! :(")
+        displayTextMessage("Maybe next time! 😜 ")
       }
     }
     else if (board[posX][posY] !== "🌊" && board[posX][posY] === "" && aiGameOver < 2 && gameOver < 2) {
@@ -76,7 +81,9 @@ function iShoot(x, y) {
       displayBoard({ boardnumber: 1, board: board })
     }
   }
+  if (gameOver < 2 && aiGameOver < 2){
   displayTextMessage("It's AI's turn to shoot!")
+  }
 }
 
 function canPlaceThere(x, y) {
@@ -101,21 +108,18 @@ function canPlaceThere(x, y) {
   }
 }
 
-function handleClick(data, side) {
-  displayMessage(data.x + data.y + data.clickType);
+function handleClick(data) {
   iShoot(data.x, data.y)
   placeShip(data.x, data.y)
 }
 
 function resetGame() {
-  board = [];
-  for (let i = 0; i < 4; i++) {
-    board.push([])
-    for (let j = 0; j < 4; j++) {
-      board[i].push("");
-    }
-  }
+  const board = [["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "", ""]];
+  const board2 = [["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "", ""]];
   displayBoard({ boardnumber: 1, board: board });
+  displayBoard({ boardnumber: 2, board: board2 });
+  displayMessage("Start a new game!", "white")
+  displayTextMessage("Let's choose a gamemode" , "white")
 }
 
 let gameOver = 0;
@@ -128,7 +132,7 @@ function aiShoot() {
     y = Math.floor(Math.random() * 4);
   } while (aiShots.includes(`${x},${y}`));
 
-  if (board2[x][y] === "🛳️ " && gameOver < 2) {
+  if (board2[x][y] === "🛳️ " && gameOver < 2 && aiGameOver < 2) {
     board2[x][y] = "💥";
     displayBoard({ boardnumber: 2, board: board2 });
     displayMessage("The AI hit your ship at " + String.fromCharCode(x + 65) + (y+1), "red");
@@ -136,6 +140,11 @@ function aiShoot() {
     gameOver++
     if (gameOver == 2) {
       displayMessage("GAME OVER! AI WON! :(")
+      displayTextMessage("Maybe next time! 😜 ")
+    }
+    if (aiGameOver == 2){
+      displayMessage(" YOU WON!")
+      displayTextMessage("You are smarter than the AI :)")
     }
 
   } else if (board2[x][y] === "" && gameOver < 2 && aiGameOver < 2) {
@@ -144,7 +153,9 @@ function aiShoot() {
     displayMessage("The AI missed at " + String.fromCharCode(x + 65) + (y+1), "white");
     aiShots.push(`${x},${y}`)
   }
+  if(gameOver < 2 && aiGameOver < 2){
   displayTextMessage("It's your turn to shoot!")
+  }
 }
 
 displayBoard({ boardnumber: 1, board: board });
